@@ -1,5 +1,5 @@
 <!-- MENU -->
-<div class="menu">
+<div class="menu" id="menu" [class.open]="menuOpen">
   <div class="title-logo">
       SLACA 2019
   </div>
@@ -21,10 +21,11 @@
     <hr>
   </ul>
 </div>
+
 <!-- END MENU -->
 
 <!-- MAIN -->
-<div class="content" role="main">
+<div class="content" role="main" id="main">
   <div id="required-elements">
     
     <!-- TÍTULO -->
@@ -41,6 +42,15 @@
 
       <!-- DIREITA DO TÍTULO -->
       <div class="rightSideTitle">
+
+        <!-- ABRIR MENU -->
+        <button *ngIf="showMenuBtn" class="menu-toggle" id="menu-toggle" (click)="toggleMenu($event)">
+          <span class="bar"></span>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </button>
+        <!-- END ABRIR MENU -->
+        
         <!-- BOX IDIOMA -->
         <div class="language">
           <img src="../assets/language_image.png" alt="">
@@ -70,7 +80,9 @@
       <!-- ESQUERDA DO TÓPICO PRINCIPAL -->
       <div class="leftSideMain">
         <h2>Análise sensorial de preparações funcionais desenvolvidas para escolares entre 09 e 15 anos, do município de Campinas/SP'</h2>
-        <img src="../assets/vídeo_overlay.png" class="video">
+        <video src="../assets/video_overlay.mp4" class="video" controls>
+          Seu navegador não suporta a tag video.
+        </video>
       </div>
       <!-- END ESQUERDA DO TÓPICO PRINCIPAL -->
 
@@ -136,7 +148,7 @@
     <div class="cardDiscussions">
       <div class="titleCard">Discussões</div>
       <div class="contentDiscussions">
-        <div *ngIf="!createTopicForm">
+        <div *ngIf="!createTopicForm" class="centralize">
 
           <h2>Compartilhe suas ideias ou duvidas com os autores</h2>
 
@@ -168,20 +180,41 @@
 
           <!-- CARD DE PERGUNTAS -->
           <div *ngFor="let topic of topics" class="answered-topic">
-            <div class="blur" *ngIf="!topic.answered">
-              <img src="../assets/waiting.png" alt="waiting" class="waiting">
-              
-              Aguardando feedback dos autores<br><br>
+              <div class="blur" *ngIf="!topic.answered">
+                <img src="../assets/waiting.png" alt="waiting" class="waiting">
+                
+                Aguardando feedback dos autores<br><br>
 
-              <button class="editButton" (click)="editTopic(topic)">Editar tópico</button>
-            </div>
-            <div class="contentQuestions">
-              <h2 class="ops-topic-subject">{{topic.title}}</h2>
+                <button class="editButton" (click)="editTopic(topic)">Editar tópico</button>
+              </div>
+              <div class="contentQuestions">
+                <h2 class="ops-topic-subject">{{topic.title}}</h2>
 
-              <h3>{{topic.author}}</h3><br>
+                <h3>{{topic.author}}</h3><br>
 
-              <p>{{topic.description}}</p>
-            </div>
+                <p>{{topic.description}}</p>
+
+                <div class="feedbacks">
+                  <img src="../assets/mais_infos.png" alt="mais_infos" class="mais_infos" (click)="toggleOpenTopic(topic)">
+                  <img src="../assets/favoritar.png" alt="favoritar" class="favoritar" (click)="giveLike(topic)">
+                  <p class="likeReplies">{{topic.likes}} likes</p>
+                  <p class="likeReplies">{{topic.replies.length}} respostas</p>
+                </div>
+
+                <!-- RESPOSTAS -->
+                <div *ngIf="topic.open">
+                  <div *ngFor="let reply of topic.replies; let i = index" class="reply"
+                  [ngStyle]="{'background-color': i % 2 === 0 ? '#E7E7E7' : '#FFFFFF'}">
+                    <h3>{{reply.author}}</h3>
+                    <p>{{reply.description}}</p>
+
+                    <div class="replyType">
+                      <h3>{{reply.type}}</h3>
+                      <img src="../assets/replyType.png" alt="replyType" *ngIf="reply.type.length > 1">
+                    </div>
+                  </div>
+                </div>
+                <!-- END RESPOSTAS -->
           </div>
           <!-- END CARD DE PERGUNTAS -->
 

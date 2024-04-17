@@ -1,10 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
+
+export interface Reply {
+  author: string;
+  description: string;
+  type: string;
+}
 
 export interface Topic {
   title: string;
   description: string;
   author: string;
   answered: boolean;
+  likes: number;
+  replies: Reply[];
+  open: boolean;
 }
 @Component({
   selector: 'app-root',
@@ -12,6 +21,7 @@ export interface Topic {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
+  
   createTopicForm = false;
   feedback = false;
   topics: Topic[] = [];
@@ -19,6 +29,14 @@ export class AppComponent implements OnInit {
   topicDescription = '';
   topicAuthor = '';
   isEditing = false;
+
+
+  showMenuBtn = false;
+  menuOpen: boolean = false;
+
+  canGiveLike = true;
+
+
   firstParagraph = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla mauris tempor, auctor nibh sed, ullamcorper enim. Aenean congue erat id odio vehicula vulputate. Maecenas vel arcu id orci pulvinar luctus. Sed eget ipsum sed elit malesuada scelerisque.
   
   Donec ullamcorper massa ante, eu volutpat lectus interdum eget. Vestibulum vitae malesuada ipsum, non hendrerit arcu. Suspendisse at ipsum venenatis, imperdiet enim vitae, pharetra turpis. Morbi tincidunt commodo nisi. Aenean fringilla commodo hendrerit. Vivamus nec felis vel justo posuere convallis ac ut enim. Curabitur tortor ante, blandit quis dictum non, laoreet at dui. Praesent molestie magna et euismod faucibus. Quisque dapibus ante bibendum tellus facilisis tincidunt.`;
@@ -33,6 +51,16 @@ export class AppComponent implements OnInit {
   showFullText = false;
 
   ngOnInit(): void {
+    this.initializeTopics();
+    this.adjustMenu();
+    window.addEventListener('resize', this.adjustMenu.bind(this));
+  }
+
+  ngOnDestroy() {
+    window.removeEventListener('resize', this.adjustMenu.bind(this));
+  }
+
+  initializeTopics(): void {
     this.topics = [
       {
         title: 'Assunto da pergunta aparece aqui',
@@ -40,6 +68,9 @@ export class AppComponent implements OnInit {
           'Comecinho da pergunta aparece aqui resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo...',
         author: 'Carlos Henrique Santos',
         answered: true,
+        likes: 0,
+        replies: [],
+        open: false,
       },
       {
         title: 'Assunto da pergunta aparece aqui',
@@ -47,8 +78,63 @@ export class AppComponent implements OnInit {
           'Comecinho da pergunta aparece aqui resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo...',
         author: 'Carlos Henrique Santos',
         answered: true,
+        likes: 2,
+        replies: 
+        [
+          {
+            author: 'Adriano da Silva',
+            description: 'Resposta do autor é aqui. Relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo.',
+            type: 'Autor'
+          },
+          {
+            author: 'Carlos Henrique Santos',
+            description: 'Consegui entender melhor agora! Parece que a variação da análise da dimensão e impacto de processo formativo situado impacto de processo formativo.',
+            type: 'Coautor'
+          },
+          {
+            author: 'Carlos Henrique Santos',
+            description: 'Consegui entender melhor agora! Parece que a variação da análise da dimensão e impacto de processo formativo situado impacto de processo formativo.',
+            type: ''
+          }
+        ],
+        open: false,
       },
     ];
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    this.adjustMenu();
+  }
+
+  toggleMenu(event?: MouseEvent): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    if (window.innerWidth <= 768) {
+      this.menuOpen = !this.menuOpen;
+      this.showMenuBtn = !this.menuOpen;
+    }
+  }
+
+
+  @HostListener('document:click', ['$event'])
+    onDocumentClick(event: MouseEvent) {
+    const target = event.target as HTMLElement | null;
+  
+    if (target && !target.closest('#menu') && this.menuOpen && window.innerWidth <= 768) {
+      this.menuOpen = false;
+      this.showMenuBtn = true;
+    }
+  }
+
+  adjustMenu(): void {
+    if (window.innerWidth <= 768) {
+      this.showMenuBtn = !this.menuOpen;
+    } else {
+      this.menuOpen = true;
+      this.showMenuBtn = false;
+    }
   }
 
   toggleText() {
@@ -65,6 +151,10 @@ export class AppComponent implements OnInit {
   }
 
   waitingFeedback() {
+    if (this.topicTitle === '' || this.topicDescription === '') {
+      alert('Preencha todos os campos');
+      return;
+    }
     this.feedback = true;
     this.createTopicForm = false;
 
@@ -78,8 +168,14 @@ export class AppComponent implements OnInit {
         description: this.topicDescription,
         author: 'Não tinha essa informação no figma',
         answered: false,
+        likes: 0,
+        replies: [],
+        open: false,
       });
     }
+
+    this.topicTitle = '';
+    this.topicDescription = '';
   }
 
   editTopic(topic: Topic) {
@@ -87,5 +183,19 @@ export class AppComponent implements OnInit {
     this.createTopicForm = true;
     this.topicTitle = topic.title;
     this.topicDescription = topic.description;
+  }
+
+  giveLike(topic: Topic){
+    if(this.canGiveLike){
+      topic.likes++;
+      this.canGiveLike = false;
+    }else{
+      topic.likes--;
+      this.canGiveLike = true;
+    }
+  }
+
+  toggleOpenTopic(topic: Topic) {
+    topic.open = !topic.open;
   }
 }
