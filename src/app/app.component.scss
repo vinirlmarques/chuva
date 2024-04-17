@@ -325,7 +325,7 @@ hr{
 
 .topTitle{
   background: #FDF1EB;
-  width: 100vw;
+  width: 99vw;
   height: 68px;
   gap: 0px;
   margin: 0;
@@ -462,35 +462,240 @@ hr{
   }
 }
 
-.cardResume{
-    border: 1px solid #ECECEC;
-    font-family: 'Quicksand', sans-serif;
-    font-weight: 500;
-    width: 100%;
-    font-size: 110%;
-    margin-top: 5px;
+.hidden {
+  display: none;
+}
 
-    .contentResume{
-      margin: 10px;
+.cardResume {
+  border: 1px solid #ECECEC;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  width: 100%;
+  font-size: 110%;
+  margin-top: 5px;
+
+  .contentResume {
+    margin: 10px;
+    overflow: hidden;
+
+    p {
+      position: relative;
     }
 
-    .lerMais{
+    .remainingText {
+      max-height: 0;
+      opacity: 0;
+      overflow: hidden;
+      transition: max-height 0.5s ease-in-out, opacity 0.5s ease-in-out;
+    } 
+
+    &.expanded .remainingText {
+      max-height: 1000px;
+      opacity: 1;
+    }
+
+    .btn-show-more {
       font-weight: bold;
       color: #ED7839;
       cursor: pointer;
     }
   }
+}
 
-.titleCard{
+
+.titleCard {
   width: 100%;
-  padding: 8px 0px 8px 8px;
-  background-clip: padding-box;
-  box-sizing: border-box;
-  font-size: 130%;
+  padding: 8px;
   background-color: #FDF1EB;
   color: #4E4E4E;
   font-family: 'Roboto', sans-serif;
   font-weight: 500;
+  font-size: 130%;
+  box-sizing: border-box;
 }
+
+.cardDiscussions{
+  margin-top: 5px;
+  margin-bottom: 30px;
+  border: 1px solid #ECECEC;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  width: 100%;
+  font-size: 110%;
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  .contentDiscussions{
+    margin: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+
+    h2{
+      font-size: 110%;
+      color: #ED7839;
+      text-align: center;
+      font-weight: 700;
+    }
+
+    .icons{
+      width: 50%;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+    }
+
+    p{
+      text-align: start;
+    }
+
+    .btn-create-topic{
+      position: relative;
+      top: 20px;
+    }
+
+    hr{
+      width: 90%;
+      border: 1px solid #ECECEC;
+      margin-bottom: 20px;
+    }
+
+    .createTopic{
+      width: 98%;
+      margin: 10px;
+
+      .topicTitle{
+        text-align: start;
+        line-height: 0;
+      }
+  
+      .subject{
+        border: 1px solid #CCCCCC;
+        border-radius: 3px;
+        width: 96%;
+        padding: 1%;
+        padding-left: 2%;
+        color: #4D4D4D;
+        font-family: 'Quicksand', sans-serif;
+      }
+  
+      .writeContent{
+        border: 1px solid #CCCCCC;
+        border-radius: 3px 3px 0 0;
+        width: 96%;
+        padding: 1%;
+        padding-left: 2%;
+        color: #4D4D4D;
+        font-family: 'Quicksand', sans-serif;
+        margin-top: 10px;
+        margin-bottom: 0;
+      }
+
+      .submitDiv{
+        width: 99%;
+        background-color: #EAF1F2;
+        height: 31px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        border: 1px solid #CCCCCC;
+        border-radius: 0 0 3px 3px;
+        margin: 0;
+        position: relative;
+        bottom: 5px;
+
+
+        .submit{
+          height: 100%;
+          width: 15%;
+          background: linear-gradient(180deg, #FEB154 0%, #F1833E 100%);
+          color: white;
+          border: none;
+        }
+      }
+
+    }
+
+  }
+}
+
+.answered-topic{
+  border: 1px solid #ECECEC;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 500;
+  width: 100%;
+  font-size: 110%;
+  margin-top: 5px;
+  position: relative;
+
+  .blur {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: #E7E7E7;
+    opacity: 0.75;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: #707070;
+
+    .waiting{
+      margin-bottom: 5px;
+      width: 20px;
+      height: auto;
+    }
+
+    .editButton{
+      color: #ED7839;
+      font-weight: 400;
+      text-decoration: underline;
+      cursor: pointer;
+      border: none;
+      background: transparent;
+    }
+  }
+
+  .contentQuestions{
+    margin: 20px;
+    position: relative;
+
+    .ops-topic-subject{
+      font-size: 110%;
+      color: #ED7839;
+      text-align: start;
+      font-weight: 700;
+      line-height: 0;
+    }
+
+    h3{
+      font-size: 100%;
+      text-align: start;
+      font-weight: 700;
+    }
+
+    p{
+      font-size: 100%;
+    }
+  }
+
+}
+
+
+
+.footer{
+  width: 100%;
+  height: auto;
+}
+
+
 
 

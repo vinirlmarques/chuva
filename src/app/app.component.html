@@ -115,51 +115,100 @@
     </div>
     <!-- END TÓPICO PRINCIPAL -->
 
+   
     <!-- CARD DE RESUMO -->
     <div class="cardResume" (click)="toggleText()">
-      <div class="titleCard">
-        Resumo
-      </div>
-
-      <div class="contentResume">
+      <div class="titleCard">Resumo</div>
+      <div class="contentResume" [class.expanded]="showFullText">
         <p>
           {{ firstParagraph }}
-          <span class="lerMais" *ngIf="!showFullText">Ler mais...</span>
+          <span class="btn-show-more" *ngIf="!showFullText">Ler mais...</span>
         </p>
-
-
-        <div *ngIf="showFullText">
-            {{ remainingText }}
+        <div class="remainingText">
+          {{ remainingText }}
         </div>
-
       </div>
-      
     </div>
     <!-- END CARD DE RESUMO -->
-    
-    <h3>O elemento de expandir resumo precisa ter a classe .btn-show-more</h3>
-    <a href="#" class="btn-show-more">ver mais</a>
 
-    <h3>O elemento de criar tópico precisa ter a classe .btn-create-topic</h3>
-    <a href="#" class="btn-create-topic">criar tópico</a>
 
-    <h3>O card que contém um tópico respondido precisa ter a classe .answered-topic, o assunto do tópico deve ter a classe .ops-topic-subject</h3>
-    <div class="answered-topic">
-      <h4 class="ops-topic-subject">Título do tópico</h4>
+    <!-- CARD DE DISCUSSÕES -->
+    <div class="cardDiscussions">
+      <div class="titleCard">Discussões</div>
+      <div class="contentDiscussions">
+        <div *ngIf="!createTopicForm">
+
+          <h2>Compartilhe suas ideias ou duvidas com os autores</h2>
+
+          <div class="icons">
+            <img src="../assets/icone1.png" alt="icone1">
+            <img src="../assets/icone2.png" alt="icone2">
+            <img src="../assets/icone3.png" alt="icone3">
+          </div>
+
+          <p>Sabia que o maior estímulo no desenvolvimento científico e cultural é a curiosidade? Deixe seus questionamentos ou sugestões para o autor!</p>
+
+        </div>
+
+        <img *ngIf="!createTopicForm" src="../assets/criar_topico.png" alt="criar_topico" class="btn-create-topic" (click)="createTopic()">
+
+
+        <div *ngIf="createTopicForm" class="createTopic">
+            <p>Tem uma dúvida ou sugestão? Compartilhe seu feedback com os autores!</p>
+            <h2 class="topicTitle">Assunto</h2>
+            <input type="text" class="subject" placeholder="Defina um tópico sucinto para notificar os autores..." [(ngModel)]="topicTitle">
+            <h2 class="topicTitle">Conteúdo</h2>
+            <textarea class="writeContent" [(ngModel)]="topicDescription"></textarea>
+            <div class="submitDiv">
+                <button class="submit" (click)="waitingFeedback()">Enviar</button>
+            </div>
+        </div>
+
+        <hr>
+
+          <!-- CARD DE PERGUNTAS -->
+          <div *ngFor="let topic of topics" class="answered-topic">
+            <div class="blur" *ngIf="!topic.answered">
+              <img src="../assets/waiting.png" alt="waiting" class="waiting">
+              
+              Aguardando feedback dos autores<br><br>
+
+              <button class="editButton" (click)="editTopic(topic)">Editar tópico</button>
+            </div>
+            <div class="contentQuestions">
+              <h2 class="ops-topic-subject">{{topic.title}}</h2>
+
+              <h3>{{topic.author}}</h3><br>
+
+              <p>{{topic.description}}</p>
+            </div>
+          </div>
+          <!-- END CARD DE PERGUNTAS -->
+
+          
     </div>
-    <div class="comments-container">
+    <!-- END CARD DE DISCUSSÕES -->
+
+
+    <!-- FOOTER -->
+    <img src="../assets/footer.png" alt="footer" class="footer" (click)="goToUndefined()">
+    <!-- END FOOTER -->
+
+    
+
+
+    <!-- <div class="comments-container">
       Os comentários de um tópico devem estar encapsulados num elemento com a classe .comments-container
     </div>
 
     <form>
       Assunto:
       <input class="subject" placeholder="Defina um tópico sucinto para notificar os autores...">
-      Conteúdo:
-      <!-- <input> -->
+
       <button>Enviar</button>
     </form>
 
     <h3>Após submeter o formulário, a seguinte mensagem deve ser exibida: Aguardando feedback dos autores</h3>
   </div>
-</div>
+</div> -->
 <!-- END MAIN -->
