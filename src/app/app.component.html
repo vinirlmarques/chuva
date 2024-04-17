@@ -200,7 +200,7 @@
 
                 <div class="feedbacks">
                   <img src="../assets/mais_infos.png" alt="mais_infos" class="mais_infos">
-                  <img src="../assets/favoritar.png" alt="favoritar" class="favoritar" (click)="giveLike(topic)">
+                  <img src="../assets/favoritar.png" id="favoritar" alt="favoritar" class="favoritar" (click)="giveLike(topic); $event.stopPropagation()">
                   <p class="likeReplies">{{topic.likes}} likes</p>
                   <p class="likeReplies">{{topic.replies.length}} respostas</p>
                 </div>
