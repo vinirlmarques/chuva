@@ -653,6 +653,15 @@ hr{
       font-weight: 700;
     }
 
+    a{
+      color: #ED7839;
+      font-weight: 500;
+      text-decoration: underline;
+      cursor: pointer;
+      font-size: 14px;
+      margin: 20px;
+    }
+
     .icons{
       width: 50%;
       display: flex;
@@ -667,6 +676,14 @@ hr{
     .btn-create-topic{
       position: relative;
       top: 20px;
+      background: linear-gradient(180deg, #FEB254 0%, #F0813D 100%);
+      width: 133px;
+      height: 32px;
+      border: none;
+      color: white;
+      font-family: 'Quicksand', sans-serif;
+      font-weight: 700;
+      border-radius: 1px;
     }
 
     hr{
@@ -748,7 +765,7 @@ hr{
     height: 100%;
     width: 100%;
     background-color: #E7E7E7;
-    opacity: 0.9;
+    opacity: 0.8;
     backdrop-filter: blur(10px);
     -webkit-backdrop-filter: blur(10px);
     z-index: 999;
@@ -762,6 +779,13 @@ hr{
       margin-bottom: 5px;
       width: 20px;
       height: auto;
+
+      h3{
+        font-family: 'Quicksand', sans-serif;
+        font-weight: 700;
+        font-size: 16px;
+        line-height: 20px;
+      }
     }
 
     .editButton{
@@ -783,7 +807,7 @@ hr{
       color: #ED7839;
       text-align: start;
       font-weight: 700;
-      line-height: 0;
+      line-height: 5px;
 
       @media  screen and (max-width: 768px){
         line-height: 20px;

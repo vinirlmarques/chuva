@@ -4,12 +4,15 @@ describe('checa elementos básicos', () => {
   });
 
   it('titulo do trabalho existe', () => {
-    cy.get('h2').contains('Análise sensorial de preparações funcionais desenvolvidas para escolares entre 09 e 15 anos, do município de Campinas/SP');
+    cy.get('h2').contains(
+      'Análise sensorial de preparações funcionais desenvolvidas para escolares entre 09 e 15 anos, do município de Campinas/SP'
+    );
     cy.compareSnapshot('Trabalho - Base');
   });
 
   it('botão de expandir resumo existe', () => {
     cy.get('.btn-show-more').contains('ver mais');
+    cy.get('.btn-show-more').click();
     cy.compareSnapshot('Trabalho - Resumo expandido');
   });
 
@@ -25,10 +28,15 @@ describe('checa elementos básicos', () => {
 
   it('clicar em `criar tópico` exibe o formulário', () => {
     cy.get('.btn-create-topic').click();
-    cy.get('button').contains('Enviar')
+    cy.get('button').contains('Enviar');
     cy.get('form').contains('Assunto');
     cy.get('form').contains('Conteúdo');
-    cy.get('input.subject').invoke('attr', 'placeholder').should('contain', 'Defina um tópico sucinto para notificar os autores...');
+    cy.get('input.subject')
+      .invoke('attr', 'placeholder')
+      .should(
+        'contain',
+        'Defina um tópico sucinto para notificar os autores...'
+      );
     cy.compareSnapshot('Trabalho - Criando novo topico');
   });
 
@@ -38,5 +46,4 @@ describe('checa elementos básicos', () => {
     cy.get('body').contains('Aguardando feedback dos autores');
     cy.compareSnapshot('Trabalho - Topico enviado');
   });
-
-})
+});

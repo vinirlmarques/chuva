@@ -21,7 +21,6 @@ export interface Topic {
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent implements OnInit {
-  
   createTopicForm = false;
   feedback = false;
   topics: Topic[] = [];
@@ -29,13 +28,12 @@ export class AppComponent implements OnInit {
   topicDescription = '';
   topicAuthor = '';
   isEditing = false;
-
+  topicSended = false;
 
   showMenuBtn = false;
   menuOpen: boolean = false;
 
   canGiveLike = true;
-
 
   firstParagraph = `Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur fringilla mauris tempor, auctor nibh sed, ullamcorper enim. Aenean congue erat id odio vehicula vulputate. Maecenas vel arcu id orci pulvinar luctus. Sed eget ipsum sed elit malesuada scelerisque.
   
@@ -68,34 +66,26 @@ export class AppComponent implements OnInit {
           'Comecinho da pergunta aparece aqui resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo...',
         author: 'Carlos Henrique Santos',
         answered: true,
-        likes: 0,
-        replies: [],
-        open: false,
-      },
-      {
-        title: 'Assunto da pergunta aparece aqui',
-        description:
-          'Comecinho da pergunta aparece aqui resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo...',
-        author: 'Carlos Henrique Santos',
-        answered: true,
         likes: 2,
-        replies: 
-        [
+        replies: [
           {
             author: 'Adriano da Silva',
-            description: 'Resposta do autor é aqui. Relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo.',
-            type: 'Autor'
+            description:
+              'Resposta do autor é aqui. Relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo resente relato inscreve-se no campo da análise da dimensão e impacto de processo formativo situado impacto de processo formativo processo.',
+            type: 'Autor',
           },
           {
             author: 'Carlos Henrique Santos',
-            description: 'Consegui entender melhor agora! Parece que a variação da análise da dimensão e impacto de processo formativo situado impacto de processo formativo.',
-            type: 'Coautor'
+            description:
+              'Consegui entender melhor agora! Parece que a variação da análise da dimensão e impacto de processo formativo situado impacto de processo formativo.',
+            type: 'Coautor',
           },
           {
             author: 'Carlos Henrique Santos',
-            description: 'Consegui entender melhor agora! Parece que a variação da análise da dimensão e impacto de processo formativo situado impacto de processo formativo.',
-            type: ''
-          }
+            description:
+              'Consegui entender melhor agora! Parece que a variação da análise da dimensão e impacto de processo formativo situado impacto de processo formativo.',
+            type: '',
+          },
         ],
         open: false,
       },
@@ -117,12 +107,16 @@ export class AppComponent implements OnInit {
     }
   }
 
-
   @HostListener('document:click', ['$event'])
-    onDocumentClick(event: MouseEvent) {
+  onDocumentClick(event: MouseEvent) {
     const target = event.target as HTMLElement | null;
-  
-    if (target && !target.closest('#menu') && this.menuOpen && window.innerWidth <= 768) {
+
+    if (
+      target &&
+      !target.closest('#menu') &&
+      this.menuOpen &&
+      window.innerWidth <= 768
+    ) {
       this.menuOpen = false;
       this.showMenuBtn = true;
     }
@@ -150,13 +144,14 @@ export class AppComponent implements OnInit {
     this.createTopicForm = true;
   }
 
-  waitingFeedback() {
-    if (this.topicTitle === '' || this.topicDescription === '') {
-      alert('Preencha todos os campos');
-      return;
-    }
+  sendTopic() {
+    // if (this.topicTitle === '' || this.topicDescription === '') {
+    //   alert('Preencha todos os campos');
+    //   return;
+    // }
     this.feedback = true;
     this.createTopicForm = false;
+    this.topicSended = true;
 
     if (this.isEditing) {
       this.isEditing = false;
@@ -185,11 +180,11 @@ export class AppComponent implements OnInit {
     this.topicDescription = topic.description;
   }
 
-  giveLike(topic: Topic){
-    if(this.canGiveLike){
+  giveLike(topic: Topic) {
+    if (this.canGiveLike) {
       topic.likes++;
       this.canGiveLike = false;
-    }else{
+    } else {
       topic.likes--;
       this.canGiveLike = true;
     }
